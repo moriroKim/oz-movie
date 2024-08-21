@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function MovieCard({ movie }) {
     return (
-        <Link to={`/detail/${movie.id}`}>
+        <Link to={`/details/${movie.id}`}>
             <li className="movie-card">
                 <div className="img-container">
                     <img src={`${IMG_BASE_URL}/${movie.poster_path}`} alt={movie.title} />

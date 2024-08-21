@@ -7,7 +7,7 @@ function Path({ movies }) {
     return (
         <Routes>
             <Route path="/" element={<MainPage movies={movies} />} />
-            <Route path="/detail/:id" element={<DetailPage />} />
+            <Route path="/details/:id" element={<DetailPage />} />
         </Routes>
     );
 }
