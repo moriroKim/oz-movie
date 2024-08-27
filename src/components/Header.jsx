@@ -4,7 +4,7 @@ import { API_KEY, client } from '../client/client';
 import MovieCard from './MovieCard';
 import { useNavigate } from 'react-router-dom';
 import { getRegExp } from 'korean-regexp';
-import useDebounce from '../hooks/Debounce';
+import useDebounce from '../hooks/debounce';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { toggleDarkMode } from '../RTK/slice';
