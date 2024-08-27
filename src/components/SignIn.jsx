@@ -89,8 +89,19 @@ function SignInCard({ setShowSignUpPage, setShowSignIn, setIsLogIn, setUserData 
         }
     };
 
-    const handleGoogleSignInBtn = (e) => {
+    const signInWithGoogle = async (e) => {
         e.preventDefault();
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+        });
+        const userData = await supabase.from('user_table').insert({
+            user_id: data?.user?.id,
+            name: data?.user?.user_metadata?.name,
+            email: data?.user?.email,
+            created_at: data?.user?.created_at,
+        });
+        console.log(data);
+        console.log(userData);
     };
 
     const handleSignUpBtn = (e) => {
@@ -139,9 +150,7 @@ function SignInCard({ setShowSignUpPage, setShowSignIn, setIsLogIn, setUserData 
                     <button onClick={handleSignInBtn} disabled={buttonDisabled}>
                         로그인
                     </button>
-                    <button onClick={handleGoogleSignInBtn} disabled={true}>
-                        구글 로그인
-                    </button>
+                    <button onClick={signInWithGoogle}>구글 로그인</button>
                 </div>
             </form>
             <div className="sign__up__btn">
