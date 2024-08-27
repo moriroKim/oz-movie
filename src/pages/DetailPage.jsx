@@ -2,42 +2,50 @@ import React, { useEffect, useState } from 'react';
 import DetailCard from '../components/DetailCard';
 import '../styles/DetailPage.scss';
 import { useParams } from 'react-router-dom';
-import { client } from '../client/client';
-import movieDetailData from '../assets/data/movieDetailData.json';
+import { API_KEY, IMG_BASE_URL, client } from '../client/client';
 
 function DetailPage() {
     const { id } = useParams();
-    const [details] = useState(movieDetailData);
-    // const [loading, setLoading] = useState(true);
+    const [details, setDetails] = useState(null);
+    console.log(details);
+    const [loading, setLoading] = useState(true);
 
-    // useEffect(() => {
-    //     try {
-    //         const fetchMovieDetails = async () => {
-    //             const response = await client.get(`movie/${id}`, {
-    //                 params: {
-    //                     language: 'ko-KR',
-    //                 },
-    //             });
+    useEffect(() => {
+        try {
+            const fetchMovieDetails = async () => {
+                const response = await client.get(`movie/${id}`, {
+                    params: {
+                        api_key: API_KEY,
+                        language: 'ko-KR',
+                    },
+                });
 
-    //             setDetails(response.data);
-    //         };
-    //         fetchMovieDetails();
-    //     } catch (error) {
-    //         console.error(error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // }, [id]);
+                setDetails(response.data);
+            };
+            fetchMovieDetails();
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    }, [id]);
 
-    // if (loading) {
-    //     return <p>로딩중입니다...</p>;
-    // }
+    if (loading) {
+        return <p>로딩중입니다...</p>;
+    }
 
-    // if (details === null) {
-    //     return <p>상세정보를 찾을 수 없습니다.</p>;
-    // }
+    if (details === null) {
+        return null;
+    }
 
-    return <div className="movie-detail">{<DetailCard details={details} />}</div>;
+    return (
+        <div className="movie-detail">
+            <div className="detail">
+                <img className="bg-backdrop" src={`${IMG_BASE_URL}/${details.backdrop_path}`} alt={details.title} />
+                <DetailCard details={details} />
+            </div>
+        </div>
+    );
 }
 
 export default DetailPage;

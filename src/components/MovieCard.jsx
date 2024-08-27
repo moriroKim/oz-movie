@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IMG_BASE_URL } from '../client/client';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-function MovieCard({ movie }) {
+function MovieCard({ item }) {
+    const [hovered, setHovered] = useState(false);
+    const navigate = useNavigate();
+    const handleRedirect = () => {
+        navigate(`/details/${item.id}`);
+    };
+
     return (
-        <Link to={`/details/${movie.id}`}>
-            <li className="movie-card">
-                <div className="img-container">
-                    <img src={`${IMG_BASE_URL}/${movie.poster_path}`} alt={movie.title} />
-                </div>
+        <li
+            className="movie-card"
+            onClick={handleRedirect}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+        >
+            <div className="img-container">
+                <img src={`${IMG_BASE_URL}/${item.poster_path}`} alt={item.title} />
+            </div>
 
-                <div className="movie-desc">
-                    <h2>{movie.title}</h2>
-                    <p>평점: {movie.vote_average}</p>
-                </div>
-            </li>
-        </Link>
+            <div className={`movie-desc ${hovered ? 'show' : 'hide'}`}>
+                <h2>{item.title}</h2>
+                <p>평점: {item.vote_average}</p>
+            </div>
+        </li>
     );
 }
 
